@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="mr">
 <head>
   <meta charset="UTF-8">
@@ -11,59 +11,38 @@
     h2 { color: #FF0000; margin-bottom: 8px; font-size: 24px; }
     p { font-size: 14px; color: #666; margin-bottom: 20px; }
     input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px; outline: none; font-size: 15px; }
-    button { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    button { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
     button:hover { background: #cc0000; }
-    #status { margin-top: 15px; font-weight: bold; font-size: 14px; }
-    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; text-align: center; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
+    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; text-align: center; }
   </style>
 
-  <!-- AdSterra Monetization Direct Script -->
+  <!-- AdSterra Direct Script -->
   <script type='text/javascript' src='//pl30676497.effectivecpmnetwork.com/46/9c/69/469c69656b4c6cf6bcb19e6b1ba36bf5.js'></script>
 </head>
 <body>
 
 <div class="container">
   <h2>YouTube Downloader 📥</h2>
-  <p>कोणतीही YouTube व्हिडिओ किंवा Shorts लिंक टाका आणि १-क्लिक मध्ये डाऊनलोड करा!</p>
+  <p>लिंक टाका आणि एका क्लिकवर व्हिडिओ डाऊनलोड करा!</p>
 
-  <input type="text" id="ytUrl" placeholder="https://youtube.com/shorts/... किंवा watch?v=..." />
-  <button onclick="processVideo()">व्हिडिओ शोधा 🚀</button>
+  <input type="text" id="ytUrl" placeholder="YouTube व्हिडिओ / Shorts लिंक इथे टाका..." />
+  <button onclick="downloadVideo()">डाऊनलोड करा 🚀</button>
 
-  <div id="status"></div>
   <div id="resultBox"></div>
 </div>
 
 <script>
-  async function processVideo() {
-    let urlInput = document.getElementById('ytUrl').value.trim();
-    const statusDiv = document.getElementById('status');
-    const resultBox = document.getElementById('resultBox');
+  function downloadVideo() {
+    let url = document.getElementById('ytUrl').value.trim();
+    if (!url) { alert('कृपया YouTube लिंक टाका!'); return; }
 
-    if (!urlInput) { alert('कृपया योग्य YouTube लिंक टाका!'); return; }
-
-    statusDiv.innerText = 'व्हिडिओ तयार होत आहे, कृपया ५ ते १० सेकंद थांबा... ⏳';
-    resultBox.innerHTML = '';
-
-    try {
-      let response = await fetch('https://yt-backend-vws9.onrender.com/download', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: urlInput })
-      });
-
-      let data = await response.json();
-
-      if (data.download_url) {
-        statusDiv.innerText = 'डाऊनलोड पर्याय तयार आहे! 👇';
-        resultBox.innerHTML = `
-          <a href="${data.download_url}" class="dl-btn" target="_blank" download>📥 Direct HD Video Download</a>
-        `;
-      } else {
-        statusDiv.innerText = '❌ व्हिडिओ लिंक लोड करता आली नाही. पुन्हा प्रयत्न करा.';
-      }
-    } catch (err) {
-      statusDiv.innerText = '⚠️ सर्व्हर कनेक्ट होण्यास वेळ लागत आहे, ५ सेकंद थांबून पुन्हा प्रयत्न करा.';
-    }
+    // Direct redirection to reliable downloader API engine
+    let cleanUrl = encodeURIComponent(url);
+    let downloadService = `https://cobalt.tools/?url=${cleanUrl}`;
+    
+    document.getElementById('resultBox').innerHTML = `
+      <a href="${downloadService}" class="dl-btn" target="_blank">📥 डाऊनलोड पेज उघडा</a>
+    `;
   }
 </script>
 
