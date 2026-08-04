@@ -1,68 +1,69 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="mr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fast YouTube Downloader 🚀</title>
-  
   <style>
     * { box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #FF0000, #111111); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; color: #333; }
-    .container { background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 480px; text-align: center; }
-    h2 { color: #FF0000; margin-bottom: 8px; font-size: 26px; font-weight: bold; }
-    p { color: #555; font-size: 14px; margin-bottom: 20px; }
-    input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px; outline: none; transition: 0.3s; }
-    input[type="text"]:focus { border-color: #FF0000; box-shadow: 0 0 8px rgba(255,0,0,0.3); }
-    button.btn-search { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-    button.btn-search:hover { background: #cc0000; }
-    #status { margin-top: 15px; font-weight: 600; color: #333; font-size: 14px; }
-    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 12px; text-align: center; box-shadow: 0 4px 12px rgba(40,167,69,0.3); }
-    .dl-btn.audio { background: #007bff; box-shadow: 0 4px 12px rgba(0,123,255,0.3); }
+    body { font-family: sans-serif; background: linear-gradient(135deg, #FF0000, #111); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; color: #333; }
+    .container { background: #fff; padding: 25px; border-radius: 16px; width: 100%; max-width: 480px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    h2 { color: #FF0000; margin-bottom: 8px; font-size: 24px; }
+    p { font-size: 14px; color: #666; margin-bottom: 20px; }
+    input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px; outline: none; font-size: 15px; }
+    button { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    button:hover { background: #cc0000; }
+    #status { margin-top: 15px; font-weight: bold; font-size: 14px; }
+    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; text-align: center; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
   </style>
 
-  <!-- AdSterra Direct Popunder Script -->
+  <!-- AdSterra Monetization Direct Script -->
   <script type='text/javascript' src='//pl30676497.effectivecpmnetwork.com/46/9c/69/469c69656b4c6cf6bcb19e6b1ba36bf5.js'></script>
 </head>
 <body>
 
 <div class="container">
   <h2>YouTube Downloader 📥</h2>
-  <p>यूट्यूब व्हिडिओ किंवा Shorts ची लिंक टाका आणि १-क्लिक मध्ये डाऊनलोड करा!</p>
+  <p>कोणतीही YouTube व्हिडिओ किंवा Shorts लिंक टाका आणि १-क्लिक मध्ये डाऊनलोड करा!</p>
 
   <input type="text" id="ytUrl" placeholder="https://youtube.com/shorts/... किंवा watch?v=..." />
-  <button class="btn-search" onclick="processVideo()">व्हिडिओ शोधा 🚀</button>
+  <button onclick="processVideo()">व्हिडिओ शोधा 🚀</button>
 
   <div id="status"></div>
   <div id="resultBox"></div>
 </div>
 
 <script>
-  function extractVideoID(url) {
-    let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    let match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
-  }
-
-  function processVideo() {
+  async function processVideo() {
     let urlInput = document.getElementById('ytUrl').value.trim();
     const statusDiv = document.getElementById('status');
     const resultBox = document.getElementById('resultBox');
 
-    let videoId = extractVideoID(urlInput);
+    if (!urlInput) { alert('कृपया योग्य YouTube लिंक टाका!'); return; }
 
-    if (!videoId) {
-      alert('कृपया योग्य YouTube व्हिडिओ किंवा Shorts ची लिंक टाका!');
-      return;
+    statusDiv.innerText = 'व्हिडिओ तयार होत आहे, कृपया ५ ते १० सेकंद थांबा... ⏳';
+    resultBox.innerHTML = '';
+
+    try {
+      let response = await fetch('https://yt-backend-vws9.onrender.com/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlInput })
+      });
+
+      let data = await response.json();
+
+      if (data.download_url) {
+        statusDiv.innerText = 'डाऊनलोड पर्याय तयार आहे! 👇';
+        resultBox.innerHTML = `
+          <a href="${data.download_url}" class="dl-btn" target="_blank" download>📥 Direct HD Video Download</a>
+        `;
+      } else {
+        statusDiv.innerText = '❌ व्हिडिओ लिंक लोड करता आली नाही. पुन्हा प्रयत्न करा.';
+      }
+    } catch (err) {
+      statusDiv.innerText = '⚠️ सर्व्हर कनेक्ट होण्यास वेळ लागत आहे, ५ सेकंद थांबून पुन्हा प्रयत्न करा.';
     }
-
-    statusDiv.innerText = 'डाऊनलोड पर्याय तयार आहेत! खालील बटणावर क्लिक करा 👇';
-
-    // Direct Download Server Routes
-    let mp4Link = `https://y2mate.is/v10/download?url=https://www.youtube.com/watch?v=${videoId}`;
-
-    resultBox.innerHTML = `
-      <a href="${mp4Link}" class="dl-btn" target="_blank">📥 Direct Video (MP4 / HD)</a>
-    `;
   }
 </script>
 
