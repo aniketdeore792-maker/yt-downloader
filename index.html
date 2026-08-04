@@ -1,2 +1,74 @@
-<!-- AdSterra Social Bar Ad Script -->
-<script src="https://pl30676497.effectivecpmnetwork.com/46/9c/69/469c69656b4c6cf6bcb19e6b1ba36bf5.js"></script>
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fast YouTube Downloader 🚀</title>
+  
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #FF0000, #181818); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; color: #333; }
+    .container { background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 100%; max-width: 480px; text-align: center; }
+    h2 { color: #FF0000; margin-bottom: 8px; font-size: 24px; font-weight: bold; }
+    p { color: #666; font-size: 14px; margin-bottom: 20px; }
+    input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px; outline: none; }
+    input[type="text"]:focus { border-color: #FF0000; }
+    button.btn-search { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+    #status { margin-top: 15px; font-weight: 600; color: #444; font-size: 14px; }
+    .video-box { margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e9ecef; }
+    video { width: 100%; border-radius: 8px; margin-top: 10px; }
+  </style>
+
+  <!-- AdSterra Social Bar Ad Script -->
+  <script src="https://pl30676497.effectivecpmnetwork.com/46/9c/69/469c69656b4c6cf6bcb19e6b1ba36bf5.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>YouTube Downloader 📥</h2>
+  <p>यूट्यूब व्हिडिओ किंवा Shorts ची लिंक टाका आणि व्हिडिओ प्ले करून डाऊनलोड करा!</p>
+
+  <input type="text" id="ytUrl" placeholder="https://youtube.com/shorts/... किंवा watch?v=..." />
+  <button class="btn-search" onclick="processVideo()">व्हिडिओ शोधा 🚀</button>
+
+  <div id="status"></div>
+  <div id="resultBox"></div>
+</div>
+
+<script>
+  function extractVideoID(url) {
+    let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    let match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  function processVideo() {
+    let urlInput = document.getElementById('ytUrl').value.trim();
+    const statusDiv = document.getElementById('status');
+    const resultBox = document.getElementById('resultBox');
+
+    let videoId = extractVideoID(urlInput);
+
+    if (!videoId) {
+      alert('कृपया वैध YouTube व्हिडिओ किंवा Shorts ची लिंक टाका!');
+      return;
+    }
+
+    statusDiv.innerText = 'तुमचा व्हिडिओ खाली लोड होत आहे... 👇';
+
+    // Invidious Open Source Engine direct stream link
+    let directMp4Stream = `https://invidious.nerdvpn.de/latest_version?id=${videoId}&itag=22&local=true`;
+
+    resultBox.innerHTML = `
+      <div class="video-box">
+        <video controls autoplay controlsList="nodownload" src="${directMp4Stream}" onerror="this.onerror=null; this.src='https://yewtu.be/latest_version?id=${videoId}&itag=18&local=true';">
+          Your browser does not support video play.
+        </video>
+        <p style="margin-top:8px; font-size:12px; color:#777;">💡 व्हिडिओच्या उजव्या बाजूला असलेल्या ३ डॉट (⋮) वर क्लिक करून डाऊनलोड करा.</p>
+      </div>
+    `;
+  }
+</script>
+
+</body>
+</html>
