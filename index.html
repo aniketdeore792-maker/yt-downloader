@@ -8,15 +8,14 @@
   <style>
     * { box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #FF0000, #181818); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; color: #333; }
-    .container { background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 100%; max-width: 480px; text-align: center; }
+    .container { background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 100%; max-width: 500px; text-align: center; }
     h2 { color: #FF0000; margin-bottom: 8px; font-size: 24px; font-weight: bold; }
     p { color: #666; font-size: 14px; margin-bottom: 20px; }
     input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 15px; outline: none; }
     input[type="text"]:focus { border-color: #FF0000; }
     button.btn-search { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
     #status { margin-top: 15px; font-weight: 600; color: #444; font-size: 14px; }
-    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; text-align: center; }
-    .dl-btn:hover { background: #218838; }
+    iframe { width: 100%; height: 450px; border: none; border-radius: 10px; margin-top: 15px; }
   </style>
 
   <!-- AdSterra Script -->
@@ -36,7 +35,7 @@
 </div>
 
 <script>
-  async function processVideo() {
+  function processVideo() {
     let urlInput = document.getElementById('ytUrl').value.trim();
     const statusDiv = document.getElementById('status');
     const resultBox = document.getElementById('resultBox');
@@ -46,35 +45,14 @@
       return;
     }
 
-    statusDiv.innerText = 'डाऊनलोड लिंक तयार होत आहे, कृपया २ सेकंद थांबा... ⏳';
-    resultBox.innerHTML = '';
+    statusDiv.innerText = 'खालील डाऊनलोड पर्यायांवर क्लिक करा 👇';
 
-    try {
-      let response = await fetch('https://co.wuk.sh/api/json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          url: urlInput,
-          vQuality: '720'
-        })
-      });
-
-      let data = await response.json();
-
-      if (data.url) {
-        statusDiv.innerText = 'तुमची लिंक तयार आहे! 👇';
-        resultBox.innerHTML = `
-          <a href="${data.url}" class="dl-btn" target="_blank" download>📥 Direct MP4 Download</a>
-        `;
-      } else {
-        statusDiv.innerText = '❌ लिंक शोधता आली नाही. कृपया लिंक तपासा.';
-      }
-    } catch (error) {
-      statusDiv.innerText = '⚠️ त्रुटी आली. कृपया पुन्हा प्रयत्न करा.';
-    }
+    // SSYouTube Direct Embed Engine
+    let cleanUrl = urlInput.replace("youtube.com", "ssyoutube.com").replace("youtu.be", "ssyoutube.com");
+    
+    resultBox.innerHTML = `
+      <iframe src="${cleanUrl}"></iframe>
+    `;
   }
 </script>
 
