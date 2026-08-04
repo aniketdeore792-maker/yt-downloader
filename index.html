@@ -7,41 +7,50 @@
   <style>
     * { box-sizing: border-box; }
     body { font-family: sans-serif; background: linear-gradient(135deg, #FF0000, #111); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; color: #333; }
-    .container { background: #fff; padding: 25px; border-radius: 16px; width: 100%; max-width: 480px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .container { background: #fff; padding: 25px; border-radius: 16px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     h2 { color: #FF0000; margin-bottom: 8px; font-size: 24px; }
     p { font-size: 14px; color: #666; margin-bottom: 20px; }
     input[type="text"] { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px; outline: none; font-size: 15px; }
-    button { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+    button { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
     button:hover { background: #cc0000; }
-    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; margin-top: 15px; text-align: center; }
+    iframe { width: 100%; height: 220px; border: none; border-radius: 12px; margin-top: 15px; }
   </style>
 
-  <!-- AdSterra Direct Script -->
+  <!-- AdSterra Monetization Direct Script -->
   <script type='text/javascript' src='//pl30676497.effectivecpmnetwork.com/46/9c/69/469c69656b4c6cf6bcb19e6b1ba36bf5.js'></script>
 </head>
 <body>
 
 <div class="container">
   <h2>YouTube Downloader 📥</h2>
-  <p>लिंक टाका आणि एका क्लिकवर व्हिडिओ डाऊनलोड करा!</p>
+  <p>कोणतीही YouTube व्हिडिओ किंवा Shorts लिंक टाका आणि डाऊनलोड करा!</p>
 
-  <input type="text" id="ytUrl" placeholder="YouTube व्हिडिओ / Shorts लिंक इथे टाका..." />
-  <button onclick="downloadVideo()">डाऊनलोड करा 🚀</button>
+  <input type="text" id="ytUrl" placeholder="YouTube व्हिडिओ किंवा Shorts लिंक टाका..." />
+  <button onclick="convertVideo()">व्हिडिओ शोधा 🚀</button>
 
-  <div id="resultBox"></div>
+  <div id="downloadContainer"></div>
 </div>
 
 <script>
-  function downloadVideo() {
-    let url = document.getElementById('ytUrl').value.trim();
-    if (!url) { alert('कृपया YouTube लिंक टाका!'); return; }
+  function extractVideoID(url) {
+    let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    let match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
 
-    // Direct redirection to reliable downloader API engine
-    let cleanUrl = encodeURIComponent(url);
-    let downloadService = `https://cobalt.tools/?url=${cleanUrl}`;
-    
-    document.getElementById('resultBox').innerHTML = `
-      <a href="${downloadService}" class="dl-btn" target="_blank">📥 डाऊनलोड पेज उघडा</a>
+  function convertVideo() {
+    let urlInput = document.getElementById('ytUrl').value.trim();
+    let videoId = extractVideoID(urlInput);
+    let container = document.getElementById('downloadContainer');
+
+    if (!videoId) {
+      alert('कृपया योग्य YouTube लिंक किंवा Shorts लिंक टाका!');
+      return;
+    }
+
+    // Direct Client-Side Loader Widget (Zero Server Required)
+    container.innerHTML = `
+      <iframe src="https://y2mate.nu/api/v1/convert?url=https://www.youtube.com/watch?v=${videoId}" scrolling="no"></iframe>
     `;
   }
 </script>
