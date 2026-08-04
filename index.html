@@ -15,8 +15,9 @@
     input[type="text"]:focus { border-color: #FF0000; }
     button.btn-search { width: 100%; background: #FF0000; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
     #status { margin-top: 15px; font-weight: 600; color: #444; font-size: 14px; }
-    .video-box { margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e9ecef; }
-    video { width: 100%; border-radius: 8px; margin-top: 10px; }
+    .video-box { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e9ecef; }
+    .dl-btn { display: inline-block; width: 100%; background: #28a745; color: white; text-decoration: none; padding: 12px; font-weight: bold; border-radius: 8px; margin-top: 10px; text-align: center; }
+    iframe { width: 100%; height: 220px; border-radius: 8px; border: none; margin-bottom: 10px; }
   </style>
 
   <!-- AdSterra Social Bar Ad Script -->
@@ -26,7 +27,7 @@
 
 <div class="container">
   <h2>YouTube Downloader 📥</h2>
-  <p>यूट्यूब व्हिडिओ किंवा Shorts ची लिंक टाका आणि व्हिडिओ प्ले करून डाऊनलोड करा!</p>
+  <p>यूट्यूब व्हिडिओ किंवा Shorts ची लिंक टाका आणि डाऊनलोड करा!</p>
 
   <input type="text" id="ytUrl" placeholder="https://youtube.com/shorts/... किंवा watch?v=..." />
   <button class="btn-search" onclick="processVideo()">व्हिडिओ शोधा 🚀</button>
@@ -54,17 +55,15 @@
       return;
     }
 
-    statusDiv.innerText = 'तुमचा व्हिडिओ खाली लोड होत आहे... 👇';
+    statusDiv.innerText = 'तुमचा व्हिडिओ तयार आहे! 👇';
 
-    // Invidious Open Source Engine direct stream link
-    let directMp4Stream = `https://invidious.nerdvpn.de/latest_version?id=${videoId}&itag=22&local=true`;
+    // Direct Download Portal Link via Rapid API Service
+    let downloadLink = `https://y2mate.is/download?url=https://www.youtube.com/watch?v=${videoId}`;
 
     resultBox.innerHTML = `
       <div class="video-box">
-        <video controls autoplay controlsList="nodownload" src="${directMp4Stream}" onerror="this.onerror=null; this.src='https://yewtu.be/latest_version?id=${videoId}&itag=18&local=true';">
-          Your browser does not support video play.
-        </video>
-        <p style="margin-top:8px; font-size:12px; color:#777;">💡 व्हिडिओच्या उजव्या बाजूला असलेल्या ३ डॉट (⋮) वर क्लिक करून डाऊनलोड करा.</p>
+        <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+        <a href="${downloadLink}" target="_blank" class="dl-btn">📥 MP4 Download (HD)</a>
       </div>
     `;
   }
